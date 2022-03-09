@@ -43,3 +43,6 @@ int query(int l,int r){
     return min(info[l][k],info[r - (1 << k) + 1][k]);
 }
 ```
+```diff
+!     🌼2022-03-10
+```
