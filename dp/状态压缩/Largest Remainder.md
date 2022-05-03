@@ -1,5 +1,14 @@
-#  ⚓[Largest Remainder](https://codeforces.com/gym/103443/problem/D)
+  <br>  
+  
+  +    [Largest Remainder](#jump1)  
+  +    [P4163 [SCOI2007]排列](#jump2)  
+  
+  <br>
+  
+<span id="jump1"></span>   
 
+#  ⚓[Largest Remainder](https://codeforces.com/gym/103443/problem/D)
+    
     这道题很容易看出来是状压，但是并不知道怎么转化。
     zyz秒懂写法，最后极限998ms强势通过。
     
@@ -186,4 +195,75 @@ int main()
 ```diff
 !   2022-05-02🚴‍♀️
 ```
- 
+<br>
+<br>
+<br>
+<span id="jump2"></span>
+<br>
+
+#  🧃[P4163 [SCOI2007]排列](https://www.luogu.com.cn/problem/P4163)  
+  ![image](https://user-images.githubusercontent.com/92497177/166399727-6ed75fb6-d01d-409b-8b22-53ef401fed96.png)
+
+  
+
+   这道题是上面的原型，刚开始还感觉这个比之前的那个难，但是看了答案之后还是icpc的更难一些。
+   在这道题里面最重要的就是因为会有重复的数，所以一开始一直不知道怎么统计，但是其实我们还是按照之前的办法。
+   只需要最后对答案按照排列组合方式去重就可以了。
+   
+   因为我们一定会把所有的数全部选下来，所以就一定是考虑到所有排列的所有情况，那么也就是说如果存在重复的数，
+   我们交换重复的数一定也是一个正确答案，那么我们只需要将其除以每一种数的A的方案即可。
+   
+   之前一直在想只有相同的数相邻会使得答案重复，但其实不相邻也会重复。
+
+```C++
+#include <bits/stdc++.h>
+
+using namespace std;
+using i64 = long long;
+
+int dp[(1 << 10)][1001];
+int f[11];
+
+int main()
+{
+    f[0] = 1;
+    for(int i = 1; i <= 10 ; i++) f[i] = f[i - 1] * i;
+
+    int t;  scanf("%d",&t);
+    while(t--){
+        memset(dp, 0 , sizeof dp);
+
+        int n, d;
+        string s;  cin >> s >> d;  n = (int)s.size();
+        vector<int>a(n);
+        for(int i = 0 ; i < n ; i++) a[i] = s[i] - '0';
+
+        dp[0][0] = 1;
+        for(int i = 0 ; i < (1 << n) ; i++){
+
+            for(int j = 0 ; j < n ; j++){
+                if(i & (1 << j)){
+                    for(int k = 0 ; k < d ; k++){
+                        int r = (k * 10 + a[j]) % d;
+                        dp[i][r] += dp[i ^ (1 << j)][k];
+                    }
+                }
+            }
+        }
+
+        int ans = dp[(1 << n) - 1][0];
+        vector<int>num(10);
+        for(int i = 0; i < n ; i++) num[a[i]]++;
+        for(int i = 0; i < 10 ; i++) ans /= f[num[i]];
+
+        printf("%d\n", ans);
+    }
+    
+    return 0;
+}
+```
+
+
+```diff
+!    😲2022-05-03
+```
