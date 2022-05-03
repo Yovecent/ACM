@@ -4,8 +4,10 @@
 <br>
 <br>
 <br>
- <span id="jump1"></span>
- [我再查一下](#jump0)
+ <span id="jump1"></span> 
+ 
+ [<我再查一下>](#jump0)    
+ 
 #  🦑[Rush Hour Puzzle](https://codeforces.com/gym/102460)
 
     这是一道`迭代加深`的类型题。
@@ -127,7 +129,9 @@ freopen("out.txt","w",stdout);
 <br>
 
   [我再查一下](#jump0)
+  
    <span id="jump2"></span>
+   
  #  [G.The Treasure of the Sierra Jade](https://codeforces.com/gym/103443/problem/G)
 ![image](https://user-images.githubusercontent.com/92497177/166499394-b47b50dd-df2f-4c8b-9530-57bd76525994.png)
 
