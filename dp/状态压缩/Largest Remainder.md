@@ -1,7 +1,7 @@
   <br>  
   
-  +    [Largest Remainder](#jump1)  
-  +    [P4163 [SCOI2007]排列](#jump2)  
+  +    <strong>[Largest Remainder](#jump1)  
+  +    <strong>[P4163 [SCOI2007]排列](#jump2)  
   
   <br>
   
