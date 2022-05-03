@@ -1,4 +1,11 @@
-🦑[Rush Hour Puzzle](https://codeforces.com/gym/102460)
+ # [Rush Hour Puzzle](#jump1)
+ # [G.The Treasure of the Sierra Jade](#jump2)
+<br>
+<br>
+<br>
+ <span id="jump1"></span>
+ 
+#  🦑[Rush Hour Puzzle](https://codeforces.com/gym/102460)
 
     这是一道`迭代加深`的类型题。
     迭代加深其实就是dfs的一种优化，只对于一部题。
@@ -114,3 +121,115 @@ freopen("out.txt","w",stdout);
 ```diff
 !     ⏰2021-01-15
 ```
+<br>
+<br>
+<br>
+
+
+   <span id="jump2"></span>
+ #  [G.The Treasure of the Sierra Jade](https://codeforces.com/gym/103443/problem/G)
+![image](https://user-images.githubusercontent.com/92497177/166499394-b47b50dd-df2f-4c8b-9530-57bd76525994.png)
+
+
+   szgnb!!!!
+   真的一下子就猜出了正确思路！！！
+   一开始是考虑向某一个方向转移的时候模一下时间看一下是否可以通过，但是我一直不知道zyz是怎么
+   保证其不会死循环的，这里正是这道题真正的出现思路的地方。
+   
+   szg想的正是将所有的数求一下他们的最小公倍数。
+   那么我们就建立了一个3维的地图，每一次我们都会往上面一层走一下，到头了再下来，这个是模的概念，当我们把整个
+   地图都走完了还没有到达的话就说明不可达。
+   为什么是正确的呢？
+   
+   加入我们考虑一个被所有的士兵都被走过的点，那么所有士兵走一轮的时间就是其所有的最小公倍数lcm，
+   如果在这个时间内我们还是呆在原地的话就说明我们一定走不出去了，相同的道理，我们会在每一格最多停留lcm下，
+   而如果又走到了这个点就是普通的bfs抵达不到的思想了。
+   
+   所以就是开了3维的地图，然后每一次穿一层，仍然是bfs的思想。
+   
+   
+ACcode:
+```C++
+#include <bits/stdc++.h>
+
+using namespace std;
+using i64 = long long;
+
+int dp[41][41][841];
+int dx[5] = {0, 0, 0, 1, -1};
+int dy[5] = {0, 1, -1, 0, 0};
+
+struct node{
+    int x, y, cnt;
+};
+
+
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+#endif
+
+    int t;  scanf("%d",&t);
+    while(t--){
+        
+        memset(dp, 0, sizeof dp);
+        int n, m; scanf("%d %d",&n,&m);  
+        vector<vector<int>> a(n, vector<int>(m, 0));
+        for(int j = 0 ; j < m ; j++)
+            for(int i = 0 ; i < n ; i++)
+                cin >> a[i][j];
+
+        int sx, sy;  scanf("%d %d",&sx, &sy);
+        int num, d = 1;  scanf("%d",&num);
+        vector<pair<int,int> >gd[num];
+        for(int i = 0; i < num ; i++){
+            int sizes;  scanf("%d",&sizes);
+            for(int j = 0 ; j < sizes ; j++){
+                int x,y;  scanf("%d %d",&x, &y);
+                gd[i].push_back({x, y});
+            }
+            d = d * sizes / __gcd(d, sizes);
+        }
+
+        for(int i = 0 ; i < num; i++){
+            for(int time = 0 ; time < d ; time ++){
+                int id = time % (int)gd[i].size();
+                dp[gd[i][id].first][gd[i][id].second][time] = dp[gd[i][id].first][gd[i][id].second][(time + 1) % d] = -1; 
+            }
+        }   
+
+        queue<node> q;
+        q.push({sx, sy, 0});
+        dp[sx][sy][0] = 1;
+        int ans = -1;
+        while(!q.empty()){
+            node u = q.front(); q.pop();
+
+            if(a[u.x][u.y] == 0){
+                ans = u.cnt;
+                break;
+            }
+            for(int i = 0 ; i < 5 ; i++){
+                int tx = u.x + dx[i];
+                int ty = u.y + dy[i];
+                if(tx < 0 || tx >= n || ty < 0 || ty >= m || a[tx][ty] > a[u.x][u.y] || dp[tx][ty][(u.cnt + 1) % d] != 0) continue;
+                
+                q.push({tx, ty, u.cnt + 1});
+                dp[tx][ty][(u.cnt + 1) % d] = 1;
+            }
+        }
+
+        printf("%d\n", ans);
+    }
+    return 0;
+}
+
+
+```
+
+```diff
+!   2022-05-04🦟
+```
+   
