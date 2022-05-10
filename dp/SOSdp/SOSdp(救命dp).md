@@ -227,8 +227,105 @@ for(int i = 0;i < N; ++i) for(int mask = 0; mask < (1<<N); ++mask){
     
     那么我们整理一下
     dp[mask] = (n + ∑) / (n - cnt)
-    那么我们只需要倒序
+    所以我们只需要求出来之前的状态，那么倒叙就可以了。
     
+```C++
+#include <bits/stdc++.h>
+
+using namespace std;
+using i64 = long long;
+const int mod = 998244353, INF = 0x3f3f3f3f;
+
+int inv[11];
+i64 ksm(i64 a, int b){
+	
+	i64 res = 1;
+	while(b){
+		if(b & 1) res = res * a % mod;
+		a = a * a % mod;
+		b >>= 1;
+	}
+	return res;
+}
+void get_birany(int x){
+	
+	vector<char>s;
+	while(x){
+		s.push_back(x % 2 + '0');
+		x /= 2;
+	}
+	reverse(s.begin(), s.end());
+	for(auto x : s)  cout << x;
+}
+int main()
+{
+	inv[0] = 1;
+	for(int i = 1; i <= 10 ; i++) inv[i] = ksm(i, mod - 2);
+	
+	int t;  scanf("%d",&t);
+	while(t--){
+		int n;  scanf("%d",&n);
+		
+		int H, W;  scanf("%d %d",&W, &H);
+		i64 SS = 1ll * W * H;
+		vector<int>X1(n), Y1(n), X2(n), Y2(n);
+		for(int i = 0; i < n ; i++){
+			scanf("%d %d %d %d",&X1[i], &Y1[i], &X2[i], &Y2[i]);
+		}
+		
+		vector<i64>s(1 << n, 0), S(1 << n, 0), dp(1 << n, 0);
+		for(int j = 0 ; j < (1 << n) ; j++){
+			int xl = 0, xr = W, yl = 0, yr = H;
+			
+			for(int i = 0 ; i < n ; i++){
+				if(j & (1 << i)){
+					xl = max(xl, X1[i]);
+					xr = min(xr, X2[i]);
+					yl = max(yl, Y1[i]);
+					yr = min(yr, Y2[i]);
+				}
+			} 
+			s[j] = 1ll * max(0, (xr - xl)) * max(0, (yr - yl));
+		} 
+		
+		for(int i = 1 ; i < (1 << n) ; i++) S[i] = (__builtin_parity(i) ? 1 : -1) * s[i];
+		for(int i = 0 ; i < n ; i++){
+			for(int j = 0; j < (1 << n) ; j++){
+				if(j & (1 << i)){
+					S[j] += S[j ^ (1 << i)];
+
+				}
+			}
+		}
+		if(S[(1 << n) - 1] != SS){
+			printf("-1\n");continue;
+		}
+		
+		for(int j = (1 << n) - 1 ;  j >= 0 ; j--){
+			if(S[j] == SS)  continue;
+			
+			int cnt = 0;
+			i64 sum = 0;
+			for(int i = 0 ; i < n ; i++){
+				if(!(j & (1 << i))){
+					sum += dp[j ^ (1 << i)];
+					sum %= mod;
+				} else cnt++;
+			}
+			
+			dp[j] = (n + sum) % mod * inv[n - cnt] % mod;
+		}
+		
+		printf("%lld\n", dp[0]);
+	}
+	
+	return 0;
+}
+```
+
+```diff
+!   2022-05-10🧺
+```
     
     
     
