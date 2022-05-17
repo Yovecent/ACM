@@ -133,6 +133,7 @@ for i in range(0, t):
     这里我们应该保证h3[i- x]和h4的级数应该差的不多，
     这里我打了一下表，看了一下 h4[x] 和 h3[i - x]的大小
 ![image](https://user-images.githubusercontent.com/92497177/168716042-bdb7dbda-d4ac-4056-8ab7-ed3e924eb552.png)
+
     因为我们假设h4[x]为a, h3[i - x]为b，
     此时a = x * b
     所以总共为(x + 1) * b
