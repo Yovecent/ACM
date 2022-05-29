@@ -46,7 +46,7 @@ int main()
         if(len) v.push_back({(i - 1) & 1, len});
     }
 
-    int ans = 0, lazy = 0;
+    int ans = 0, lazy = 0;//lazy:执行偶操作的数量
     for(int i = 0 ; i < v.size() ; i++){
         if(v[i].first & 1){
             if(!lazy && v[i].second == 1){
