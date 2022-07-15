@@ -59,8 +59,9 @@ bool SPFA () {
 		for (auto [v, w] : adj[u]) {
 			if (dis[v] > dis[u] + w) {
 				dis[v] = dis[u] + w;
+				cnt[v] = cnt[u] + 1;
 				if (++tot >= 1e5) return true; 
-				if (++cnt[v] >= n) return true;
+				if (cnt[v] >= n) return true;
 				if (!vis[v]) {
 					q.push(v);
 					vis[v] = true;
