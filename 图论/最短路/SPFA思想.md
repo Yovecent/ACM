@@ -41,6 +41,7 @@ bool SPFA(int u,double mid){
     而对于判负环来说，dfs版会更有效率，其实bfs与dfs最终达到的效果都是一样的，最终都无法更新而停止更新。
     只是bfs进行了进栈就再次松弛，而bfs是按照顺序去松弛，dfs更能及时的发现负环，但是如果没有负环的情况下却要比bfs慢。
 ```C++
+int tot;
 bool SPFA () {
 	
 	stack<int> q;
@@ -58,6 +59,7 @@ bool SPFA () {
 		for (auto [v, w] : adj[u]) {
 			if (dis[v] > dis[u] + w) {
 				dis[v] = dis[u] + w;
+				if (++tot >= 1e5) return true; 
 				if (++cnt[v] >= n) return true;
 				if (!vis[v]) {
 					q.push(v);
